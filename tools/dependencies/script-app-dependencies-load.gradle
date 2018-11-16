@@ -1,0 +1,38 @@
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    /** ##################### QA Dependencies ##################### */
+
+    androidTestImplementation(rootProject.ext.espressoCore, {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testImplementation rootProject.ext.jUnit
+
+    /** ##################### QA Dependencies ##################### */
+
+
+    /** ############### External Library Dependencies ############### */
+
+    /* Google */
+    implementation rootProject.ext.supportAppcompatV7
+
+    /* Lombok */
+    compileOnly rootProject.ext.lombok
+    annotationProcessor rootProject.ext.lombok
+
+    /* Dagger2 */
+    implementation "com.google.dagger:dagger:$project.daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$project.daggerVersion"
+
+    /* ButterKnife */
+    implementation "com.jakewharton:butterknife:$project.butterKnifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$project.butterKnifeVersion"
+
+    /* Internal Libs */
+    api project(':gracefulcrash')
+
+    // add more dependencies here
+
+    /** ############### External Library Dependencies ############### */
+
+}

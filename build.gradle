@@ -1,0 +1,50 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local' }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.6.2"
+        classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.1'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+
+}
+
+allprojects {
+
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url 'http://oss.jfrog.org/artifactory/oss-snapshot-local' }
+    }
+
+}
+
+ext {
+
+    variantProd = 'release'
+    qaInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+
+    /* Shared Dependencies (across modules) */
+    supportAppcompatV7 = "com.android.support:appcompat-v7:$project.supportLibraryVersion" // Google Support
+    lombok = "org.projectlombok:lombok:$project.lombokVersion" // Lombok
+
+    /* QA Shared Dependencies (across modules) */
+    jUnit = "junit:junit:$project.jUnitVersion" // JUnit
+    espressoCore = "com.android.support.test.espresso:espresso-core:$project.espressoCoreVersion" // Espresso
+
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

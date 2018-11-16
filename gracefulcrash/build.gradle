@@ -1,0 +1,54 @@
+apply plugin: 'com.android.library'
+
+android {
+
+    defaultPublishConfig variantProd
+
+    compileSdkVersion project.COMPILE_SDK_VERSION.toInteger()
+    buildToolsVersion project.BUILD_TOOLS_VERSION
+
+    defaultConfig {
+
+        minSdkVersion project.MIN_SDK_VERSION.toInteger()
+        targetSdkVersion project.TARGET_SDK_VERSION.toInteger()
+        versionCode project.LIBRARY_VERSION_CODE.toInteger()
+        versionName project.LIBRARY_VERSION_NAME
+        testInstrumentationRunner testInstrumentationRunner
+
+        // TODO PR: Add proper configuration here
+//        buildConfigField ("String", "API_TEST_BASE_URL", "\"http://192.168.31.24/\"")
+
+
+        // Add further default configurations here
+
+    }
+
+    buildTypes {
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    "$project.rootDir/tools/proguard-rules-debug.pro"
+            // Add further debug configurations here
+        }
+
+        // Add a QA build type?
+
+        release {
+            debuggable false
+            minifyEnabled false
+            zipAlignEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), "$project.rootDir/tools/proguard-rules.pro"
+            // Add further release configurations here
+        }
+
+    }
+
+}
+
+apply from: "$project.rootDir/tools/settings/development-settings.gradle"
+// TODO PR: Missing Publish script
+apply from: "$project.rootDir/tools/dependencies/script-gracefulcrash-dependencies-load.gradle"

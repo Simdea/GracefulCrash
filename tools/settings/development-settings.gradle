@@ -1,0 +1,40 @@
+final String DEV_BUILD = 'devBuild'
+
+android {
+
+    buildTypes {
+        debug {
+            ext.alwaysUpdateBuildId = false // Crashlytics will generate a new build id for every build otherwise
+        }
+    }
+
+    /**
+     * Setup Gradle for faster dev build times
+     * @see <a href="Speeding Up Your Android Gradle Builds (Google I/O '17)">
+     *     https://www.youtube.com/watch?v=7ll-rkLCtyk</a>
+     */
+    if (project.hasProperty(DEV_BUILD)) {
+        splits.abi.enable = false
+        splits.density.enable = false
+        aaptOptions.cruncherEnabled = false
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        disable 'InvalidPackage' // Necessary because of OkHttp, which is not an Android package!
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/ASL2.0'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
+
+}

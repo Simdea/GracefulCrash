@@ -1,0 +1,20 @@
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="pt.simdea.gracefulcrash">
+
+    <application>
+
+        <activity
+            android:name="pt.simdea.gracefulcrash.bootstrap.DefaultErrorActivity"
+            android:launchMode="singleTask"
+            android:process=":gracefulcrash_error" />
+
+        <provider
+            android:authorities="${applicationId}.gracefulcrashinitprovider"
+            android:exported="false"
+            android:enabled="true"
+            android:name=".bootstrap.GracefulCrashInitProvider" />
+
+    </application>
+
+</manifest>

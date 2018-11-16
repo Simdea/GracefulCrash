@@ -1,0 +1,58 @@
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="pt.simdea.gracefulcrash.sample">
+
+    <application
+        android:name=".support.bootstrap.SampleApplication"
+        android:allowBackup="false"
+        android:supportsRtl="false"
+        android:icon="${appIcon}"
+        android:roundIcon="${appIconRound}"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+
+        <!-- Base Activity -->
+        <activity
+            android:name=".presenters.activity.BaseActivity" />
+
+        <!-- Splash Activity -->
+        <activity
+            android:name=".presenters.activity.SplashPresenter"
+            android:launchMode="singleTask"
+            android:theme="@style/SplashTheme">
+
+            <!-- Launcher Filter -->
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.MAIN" />
+                <category
+                    android:name="android.intent.category.LAUNCHER" />
+                <category
+                    android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+
+            <!-- Index Filter -->
+            <intent-filter>
+                <action
+                    android:name="android.intent.action.VIEW"/>
+                <category
+                    android:name="android.intent.category.DEFAULT"/>
+                <category
+                    android:name="android.intent.category.BROWSABLE"/>
+
+                <!-- Accepts URIs that begin with "sample://appsample" -->
+                <data
+                    android:host="sample"
+                    android:scheme="appsample" />
+
+            </intent-filter>
+
+        </activity>
+
+        <!-- Home Activity -->
+        <activity
+            android:name=".presenters.activity.HomePresenter" />
+
+    </application>
+
+</manifest>

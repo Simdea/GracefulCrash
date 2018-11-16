@@ -1,0 +1,9 @@
+<resources>
+
+    <!-- General Resources -->
+    <string name="app_name" translatable="false">GracefulCrash</string>
+
+    <!-- Label Resources -->
+    <string name="label_test" translatable="false">Test</string>
+
+</resources>

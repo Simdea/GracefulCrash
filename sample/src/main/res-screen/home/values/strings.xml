@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="lockable_view_locked" translatable="false">View is locked!</string>
+    <string name="lockable_view_locked_instruction" translatable="false">
+        View is locked! Unlock it by long pressing this button!
+    </string>
+    <string name="lockable_view_unlocked" translatable="false">View is unlocked!</string>
+
+</resources>

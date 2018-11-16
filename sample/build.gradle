@@ -1,0 +1,66 @@
+apply plugin: 'com.android.application'
+android {
+
+    compileSdkVersion project.COMPILE_SDK_VERSION.toInteger()
+    buildToolsVersion project.BUILD_TOOLS_VERSION
+
+    defaultConfig {
+        applicationId project.APP_ID
+        minSdkVersion project.MIN_SDK_VERSION.toInteger()
+        targetSdkVersion project.TARGET_SDK_VERSION.toInteger()
+        versionCode project.LIBRARY_VERSION_CODE.toInteger()
+        versionName project.LIBRARY_VERSION_NAME
+        testInstrumentationRunner qaInstrumentationRunner
+        // Add further default configurations here
+    }
+
+    buildTypes {
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+            zipAlignEnabled false
+            applicationIdSuffix project.DEV_APP_ID_SUFFIX
+            versionNameSuffix project.DEV_VERSION_NAME_SUFFIX
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    "$project.rootDir/tools/proguard-rules-debug.pro"
+            manifestPlaceholders += [
+                    appIcon     : "@drawable/ic_launcher_dev",
+                    appIconRound: "@drawable/ic_launcher_round_dev"
+            ]
+            // Add further debug configurations here
+        }
+
+        // TODO PR: Add QA buildType and QA libs such as BEE, etc.
+
+        release {
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), "$project.rootDir/tools/proguard-rules.pro"
+            manifestPlaceholders += [
+                    appIcon     : "@mipmap/ic_launcher",
+                    appIconRound: "@mipmap/ic_launcher_round"
+            ]
+            // Add further release configurations here
+        }
+
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs = [
+                    'src/main/debug/res',
+                    'src/main/res-base',
+                    'src/main/res-screen/splash',
+                    'src/main/res-screen/home'
+            ]
+        }
+    }
+
+}
+
+apply from: "$project.rootDir/tools/settings/development-settings.gradle"
+apply from: "$project.rootDir/tools/dependencies/script-app-dependencies-load.gradle"
