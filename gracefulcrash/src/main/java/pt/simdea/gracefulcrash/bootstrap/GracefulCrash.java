@@ -6,10 +6,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 import pt.simdea.gracefulcrash.data.constants.GracefulCrashConstants;
 import pt.simdea.gracefulcrash.data.exceptions.GracefulCrashModuleInstantiationException;
+import pt.simdea.gracefulcrash.handlers.AppExceptionHandler;
 import pt.simdea.gracefulcrash.handlers.RestartOnceHandler;
 
 /**
@@ -67,18 +73,18 @@ public final class GracefulCrash {
     /**
      * Procedure meant to install the {@link GracefulCrash} module on the {@link android.app.Application} instance.
      */
-    public void install(@Nullable final Context applicationContext) {
+    public void install(@Nullable final Context applicationContext, @NonNull final Class handlerClass) {
         if (applicationContext == null) {
             Log.e(GracefulCrashConstants.TAG, GracefulCrashConstants.INSTALL_FAILED);
         } else {
             Log.i(GracefulCrashConstants.TAG, GracefulCrashConstants.INSTALLING_NOW); // proceed with install
             if (!checkForPreviousInstall()) {
-                proceedWithInstall((Application) applicationContext);
+                proceedWithInstall((Application) applicationContext, handlerClass);
             }
         }
     }
 
-    private void proceedWithInstall(@NonNull final Application application) {
+    private void proceedWithInstall(@NonNull final Application application, @NonNull final Class handlerClass) {
         // TODO PR: Install...
         // 1. Get the current handler.
         final Thread.UncaughtExceptionHandler currentHandler = Thread.getDefaultUncaughtExceptionHandler();
@@ -99,10 +105,53 @@ public final class GracefulCrash {
         final Thread.UncaughtExceptionHandler fabricExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
 
         // 4. Setup our handler, which tries to restart the app.
-        Thread.setDefaultUncaughtExceptionHandler(new RestartOnceHandler(currentHandler,
-                fabricExceptionHandler, application));
+        try {
+            Thread.setDefaultUncaughtExceptionHandler(compileTargetExceptionHandler(handlerClass, currentHandler,
+                    fabricExceptionHandler, application));
+        } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            Log.e(GracefulCrashConstants.TAG, GracefulCrashConstants.INSTANTIATING_EXCEPTION_HANDLER_CLASS_FAILED, e);
+            Thread.setDefaultUncaughtExceptionHandler(new RestartOnceHandler(currentHandler, fabricExceptionHandler,
+                    application));
+        }
 
         Log.i(GracefulCrashConstants.TAG, GracefulCrashConstants.INSTALL_FINISHED);
+    }
+
+    private AppExceptionHandler compileTargetExceptionHandler(@NonNull final Class handlerClass,
+                                              @NonNull final Thread.UncaughtExceptionHandler currentHandler,
+                                              @NonNull final Thread.UncaughtExceptionHandler fabricExceptionHandler,
+                                              @NonNull final Application application)
+            throws IllegalAccessException, InstantiationException, InvocationTargetException {
+        final Constructor[] constructors = handlerClass.getConstructors();
+        final boolean validConstructors = checkConstructorsArray(constructors);
+        return validConstructors
+                ? instantiateExceptionHandler(constructors, currentHandler, fabricExceptionHandler, application)
+                : new RestartOnceHandler(currentHandler, fabricExceptionHandler, application);
+    }
+
+    private AppExceptionHandler instantiateExceptionHandler(@NonNull final Constructor[] constructors,
+                                                @NonNull final Thread.UncaughtExceptionHandler currentHandler,
+                                                @NonNull final Thread.UncaughtExceptionHandler fabricExceptionHandler,
+                                                @NonNull final Application application)
+            throws IllegalAccessException, InstantiationException, InvocationTargetException {
+        for (final Constructor constructor : constructors) {
+            final List<Class> parameterTypes = Arrays.asList(constructor.getParameterTypes());
+            if (checkCorrectConstructorParameters(parameterTypes)) {
+                return (AppExceptionHandler) constructor
+                        .newInstance(currentHandler, fabricExceptionHandler, application);
+            }
+        }
+        return new RestartOnceHandler(currentHandler, fabricExceptionHandler, application);
+    }
+
+    private boolean checkConstructorsArray(@Nullable final Constructor[] constructors) {
+        return constructors != null && constructors.length > 0;
+    }
+
+    private boolean checkCorrectConstructorParameters(@NonNull final List<Class> parameterTypes) {
+        return parameterTypes.size() == 3
+                && parameterTypes.contains(Thread.UncaughtExceptionHandler.class)
+                && parameterTypes.contains(Application.class);
     }
 
     private boolean checkForPreviousInstall() {

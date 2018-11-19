@@ -17,7 +17,7 @@ import pt.simdea.gracefulcrash.data.constants.GracefulCrashConstants;
  * Base class responsible for handling any crashes the application experiences.
  */
 @SuppressWarnings("unused")
-abstract class AppExceptionHandler
+public abstract class AppExceptionHandler
         implements Thread.UncaughtExceptionHandler, Application.ActivityLifecycleCallbacks {
 
     final Thread.UncaughtExceptionHandler mSystemExceptionHandler;

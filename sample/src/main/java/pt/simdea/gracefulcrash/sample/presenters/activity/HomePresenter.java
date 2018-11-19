@@ -37,8 +37,8 @@ public class HomePresenter extends BaseActivity<IHomeViewMvp>
     /** {@inheritDoc} */
     @Override
     protected void onCreate(@Nullable final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         getActivityComponent().inject(this);
+        super.onCreate(savedInstanceState);
         attachView(mViewMvp);
         setContentView(mViewMvp.getRootView());
     }

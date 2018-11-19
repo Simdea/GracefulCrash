@@ -22,6 +22,7 @@ import java.lang.annotation.RetentionPolicy;
         GracefulCrashConstants.INVALID_PROVIDER_AUTHORITY,
         GracefulCrashConstants.SINGLETON_INSTANTIATION_ERROR,
         GracefulCrashConstants.INSTANTIATING_UTILITY_CLASS_NOT_ALLOWED,
+        GracefulCrashConstants.INSTANTIATING_EXCEPTION_HANDLER_CLASS_FAILED,
         GracefulCrashConstants.INSTALLING_NOW,
         GracefulCrashConstants.ALREADY_INSTALLED,
         GracefulCrashConstants.INSTALL_FINISHED,
@@ -61,6 +62,8 @@ public @interface GracefulCrashConstants {
     String SINGLETON_INSTANTIATION_ERROR
             = "Instantiating singleton class. Use getInstance() method to get the single instance of this class.";
     String INSTANTIATING_UTILITY_CLASS_NOT_ALLOWED = "Instantiating utility class.";
+    String INSTANTIATING_EXCEPTION_HANDLER_CLASS_FAILED = "Instantiating Exception Handler class.\nUsing " +
+            "GracefulCrash default handler instead.";
 
     /* Info Constants. */
     String INSTALLING_NOW = "Installing now ...";

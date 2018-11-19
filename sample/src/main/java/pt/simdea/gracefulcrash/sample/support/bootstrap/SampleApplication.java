@@ -9,7 +9,9 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import lombok.Getter;
+import pt.simdea.gracefulcrash.bootstrap.DefaultErrorActivity;
 import pt.simdea.gracefulcrash.bootstrap.GracefulCrashConfiguration;
+import pt.simdea.gracefulcrash.data.constants.GracefulCrashConstants;
 import pt.simdea.gracefulcrash.sample.BuildConfig;
 import pt.simdea.gracefulcrash.sample.support.data.constants.ActivityStateConstants;
 import pt.simdea.gracefulcrash.sample.support.data.constants.ExceptionConstants;
@@ -176,7 +178,8 @@ public class SampleApplication extends Application
     private void setExceptionHandlerOptions() {
         final GracefulCrashConfiguration configuration = new GracefulCrashConfiguration.ConfigurationBuilder()
                 .enable(true)
-                .trackActivities(true, null, 2)
+                .trackActivities(true, GracefulCrashConstants.DEFAULT_DATE_FORMAT, 2)
+                .withErrorActivity(DefaultErrorActivity.class)
                 .buildConfiguration();
         configuration.apply();
     }

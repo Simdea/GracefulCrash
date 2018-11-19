@@ -66,7 +66,7 @@ public final class GracefulCrashConfiguration
      */
     public static class ConfigurationBuilder {
 
-        private Class<? extends Activity> mErrorActivity;
+        private Class<? extends Activity> mErrorActivity = DefaultErrorActivity.class;
         private boolean isEnabled = true; // true by default
         private boolean mTrackActivities = false; // false by default
         private String mTrackActivitiesDateFormat
@@ -140,7 +140,9 @@ public final class GracefulCrashConfiguration
         }
 
         /**
-         * TODO PR: Add JavaDocs...
+         * Procedure meant to set the value for {@link #mErrorActivity} optional parameter.
+         * If a class is provided, it allows for the injection of a custom error {@link Activity} that will be
+         * launched when a crash occurs.
          * @param errorActivity
          * @return
          */

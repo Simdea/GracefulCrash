@@ -9,7 +9,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import lombok.NoArgsConstructor;
 import pt.simdea.gracefulcrash.BuildConfig;
@@ -31,8 +30,7 @@ public final class GracefulCrashInitProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         final Context context = getContext(); // get the context (Application context)
-        GracefulCrash.getInstance().install(context); // initialize whatever you need
-        Log.e(GracefulCrashConstants.TAG, "BuildConfig -> " + BuildConfig.BUILD_TYPE);
+        GracefulCrash.getInstance().install(context, BuildConfig.GRACEFUL_CRASH_EXCEPTION_HANDLER); // initialize whatever you need
         return false;
     }
 

@@ -32,6 +32,8 @@ android {
             zipAlignEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'),
                     "$project.rootDir/tools/proguard-rules-debug.pro"
+            buildConfigField (project.parentExceptionHandler, project.exceptionHandlerBuildParameter,
+                    project.devExceptionHandler)
             // Add further debug configurations here
         }
 
@@ -42,6 +44,8 @@ android {
             minifyEnabled false
             zipAlignEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), "$project.rootDir/tools/proguard-rules.pro"
+            buildConfigField (project.parentExceptionHandler, project.exceptionHandlerBuildParameter,
+                    project.prodExceptionHandler)
             // Add further release configurations here
         }
 
