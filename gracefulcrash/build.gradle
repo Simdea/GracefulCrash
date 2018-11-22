@@ -1,24 +1,24 @@
 apply plugin: 'com.android.library'
 
+def config = rootProject.extensions.getByName("ext") // Create variable to access "ext"
+
 android {
 
-    defaultPublishConfig variantProd
+    defaultPublishConfig config['defaultPublishConfig']
 
-    compileSdkVersion project.COMPILE_SDK_VERSION.toInteger()
-    buildToolsVersion project.BUILD_TOOLS_VERSION
+    compileSdkVersion config['compileSdkVersion']
+    buildToolsVersion config['buildToolsVersion']
 
     defaultConfig {
 
-        minSdkVersion project.MIN_SDK_VERSION.toInteger()
-        targetSdkVersion project.TARGET_SDK_VERSION.toInteger()
-        versionCode project.LIBRARY_VERSION_CODE.toInteger()
-        versionName project.LIBRARY_VERSION_NAME
-        testInstrumentationRunner testInstrumentationRunner
+        minSdkVersion             config['minSdkVersion']
+        targetSdkVersion          config['targetSdkVersion']
+        versionCode               config['versionCode']
+        versionName               config['versionName']
+        testInstrumentationRunner config['testInstrumentationRunner']
 
         // TODO PR: Add proper configuration here
 //        buildConfigField ("String", "API_TEST_BASE_URL", "\"http://192.168.31.24/\"")
-
-
         // Add further default configurations here
 
     }

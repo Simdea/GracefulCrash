@@ -32,8 +32,20 @@ allprojects {
 
 ext {
 
-    variantProd = 'release'
-    qaInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+    /* Shared Module Variables */
+    compileSdkVersion         = project.COMPILE_SDK_VERSION.toInteger()
+    buildToolsVersion         = project.BUILD_TOOLS_VERSION
+    minSdkVersion             = project.MIN_SDK_VERSION.toInteger()
+    targetSdkVersion          = project.TARGET_SDK_VERSION.toInteger()
+    testInstrumentationRunner = project.TEST_INSTRUMENTATION_RUNNER
+    versionCode               = project.LIBRARY_VERSION_CODE.toInteger()
+    versionName               = project.LIBRARY_VERSION_NAME
+
+    /* Sample App Module Variables */
+    applicationId = project.APP_ID
+
+    /* Graceful Crash Module Variables */
+    defaultPublishConfig = 'release'
 
     /* Shared Dependencies (across modules) */
     commonDependency = [
