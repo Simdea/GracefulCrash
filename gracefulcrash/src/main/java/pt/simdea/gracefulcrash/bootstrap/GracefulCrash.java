@@ -85,7 +85,6 @@ public final class GracefulCrash {
     }
 
     private void proceedWithInstall(@NonNull final Application application, @NonNull final Class handlerClass) {
-        // TODO PR: Install...
         // 1. Get the current handler.
         final Thread.UncaughtExceptionHandler currentHandler = Thread.getDefaultUncaughtExceptionHandler();
 

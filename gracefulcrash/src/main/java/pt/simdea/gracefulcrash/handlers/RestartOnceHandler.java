@@ -11,7 +11,12 @@ import pt.simdea.gracefulcrash.bootstrap.GracefulCrashActivityTracker;
 import pt.simdea.gracefulcrash.data.constants.GracefulCrashConstants;
 
 /**
- * TODO PR: Add proper JavaDoc!
+ * Class meant to define an exception handler with a restart once policy.
+ * The goal is the make the application recover from a crash and give the user a chance to resume an ongoing task.
+ * The policy is as follows:
+ * 1. If a crash happens, the app will restart on the same context and attempt to resume
+ * execution.
+ * 2. If after a restart, the same crash occurs, the app will crash normally.
  */
 @SuppressWarnings("unused")
 public final class RestartOnceHandler extends AppExceptionHandler {

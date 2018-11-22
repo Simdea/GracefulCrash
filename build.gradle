@@ -36,12 +36,20 @@ ext {
     qaInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
 
     /* Shared Dependencies (across modules) */
-    supportAppcompatV7 = "com.android.support:appcompat-v7:$project.supportLibraryVersion" // Google Support
-    lombok = "org.projectlombok:lombok:$project.lombokVersion" // Lombok
+    commonDependency = [
+            supportAppcompatV7  : "com.android.support:appcompat-v7:$project.supportLibraryVersion", // Google Support
+            lombok              : "org.projectlombok:lombok:$project.lombokVersion", // Lombok
+            dagger              : "com.google.dagger:dagger:$project.daggerVersion", // Dagger2
+            daggerCompiler      : "com.google.dagger:dagger-compiler:$project.daggerVersion", // Dagger2
+            butterKnife         : "com.jakewharton:butterknife:$project.butterKnifeVersion", // ButterKnife
+            butterKnifeCompiler : "com.jakewharton:butterknife-compiler:$project.butterKnifeVersion" // ButterKnife
+    ]
 
     /* QA Shared Dependencies (across modules) */
-    jUnit = "junit:junit:$project.jUnitVersion" // JUnit
-    espressoCore = "com.android.support.test.espresso:espresso-core:$project.espressoCoreVersion" // Espresso
+    qaDependency = [
+            jUnit        : "junit:junit:$project.jUnitVersion", // JUnit
+            espressoCore : "com.android.support.test.espresso:espresso-core:$project.espressoCoreVersion" // Espresso
+    ]
 
 }
 

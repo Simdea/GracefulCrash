@@ -1,12 +1,14 @@
+def config = rootProject.extensions.getByName("ext") // Create variable to access "ext"
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
 
     /** ##################### QA Dependencies ##################### */
 
-    androidTestImplementation(rootProject.ext.espressoCore, {
+    androidTestImplementation(config.qaDependency.espressoCore, {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    testImplementation rootProject.ext.jUnit
+    testImplementation config.qaDependency.jUnit
 
     /** ##################### QA Dependencies ##################### */
 
@@ -14,19 +16,19 @@ dependencies {
     /** ############### External Library Dependencies ############### */
 
     /* Google */
-    implementation rootProject.ext.supportAppcompatV7
+    implementation config.commonDependency.supportAppcompatV7
 
     /* Lombok */
-    compileOnly rootProject.ext.lombok
-    annotationProcessor rootProject.ext.lombok
+    compileOnly         config.commonDependency.lombok
+    annotationProcessor config.commonDependency.lombok
 
     /* Dagger2 */
-    implementation "com.google.dagger:dagger:$project.daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-compiler:$project.daggerVersion"
+    implementation      config.commonDependency.dagger
+    annotationProcessor config.commonDependency.daggerCompiler
 
     /* ButterKnife */
-    implementation "com.jakewharton:butterknife:$project.butterKnifeVersion"
-    annotationProcessor "com.jakewharton:butterknife-compiler:$project.butterKnifeVersion"
+    implementation      config.commonDependency.butterKnife
+    annotationProcessor config.commonDependency.butterKnifeCompiler
 
     /* Internal Libs */
     api project(':gracefulcrash')
