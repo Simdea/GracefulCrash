@@ -7,6 +7,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import pt.simdea.gracefulcrash.bootstrap.GracefulCrash;
 import pt.simdea.gracefulcrash.bootstrap.GracefulCrashActivityTracker;
 import pt.simdea.gracefulcrash.bootstrap.GracefulCrashConfiguration;
@@ -43,21 +46,41 @@ public final class ErrorActivityHandler extends AppExceptionHandler {
         final Class<? extends Activity> errorActivityClass = configuration.getErrorActivity();
 
         if (configuration.getBackgroundMode() == GracefulCrashBackgroundModes.SHOW_CUSTOM_CRASH
-                || !GracefulCrashActivityTracker.getInstance().mInBackground) {
+                && !GracefulCrashActivityTracker.getInstance().mInBackground) {
 
             final Intent errorIntent = new Intent(mApplication, errorActivityClass);
             errorIntent.putExtra(GracefulCrashConstants.ACTIVITY_LOG_DATA,
                     compileActivityTracking(activityTracker, configuration));
+            errorIntent.putExtra(GracefulCrashConstants.ACTIVITY_ERROR_LOG_ON_RESTART_DATA,
+                    compileStackTrace(throwable));
             errorIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             activityTracker.mLastActivityCreated.get().startActivity(errorIntent);
             activityTracker.mLastActivityCreated.get().finish();
             activityTracker.mLastActivityCreated.clear();
 
-        } else if (configuration.getBackgroundMode() == GracefulCrashBackgroundModes.SHOW_SYSTEM_CRASH) {
+        } else if (configuration.getBackgroundMode() == GracefulCrashBackgroundModes.SHOW_SYSTEM_CRASH
+                && !GracefulCrashActivityTracker.getInstance().mInBackground) {
             mAnalyticsExceptionHandler.uncaughtException(thread, throwable);
             mSystemExceptionHandler.uncaughtException(thread, throwable);
         }
         exit();
+    }
+
+    private String compileStackTrace(@NonNull final Throwable throwable) {
+        final StringWriter stringWriter = new StringWriter();
+        final PrintWriter printWriter = new PrintWriter(stringWriter);
+        throwable.printStackTrace(printWriter);
+        return checkIfStackTraceIsTooLarge(stringWriter.toString());
+    }
+
+    private String checkIfStackTraceIsTooLarge(@NonNull final String stackTrace) {
+        final int maxStackTraceSize = 131071; // 128 KB - 1
+        if (stackTrace.length() > maxStackTraceSize) {
+            return stackTrace.substring(0, maxStackTraceSize
+                    - GracefulCrashConstants.DISCLAIMER_FOR_STACK_TRACE_TOO_LARGE.length())
+                    + GracefulCrashConstants.DISCLAIMER_FOR_STACK_TRACE_TOO_LARGE;
+        }
+        return stackTrace;
     }
 
     private String compileActivityTracking(@NonNull final GracefulCrashActivityTracker activityTracker,

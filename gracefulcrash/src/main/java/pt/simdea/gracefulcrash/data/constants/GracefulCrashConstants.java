@@ -11,6 +11,7 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.CLASS)
 @StringDef({
         GracefulCrashConstants.TAG,
+        GracefulCrashConstants.EMPTY_STRING,
         GracefulCrashConstants.SINGLE_TWO_POINTS_STRING,
         GracefulCrashConstants.SINGLE_NEW_LINE_STRING,
         GracefulCrashConstants.DEFAULT_DATE_FORMAT,
@@ -28,6 +29,7 @@ import java.lang.annotation.RetentionPolicy;
         GracefulCrashConstants.INSTALL_FINISHED,
         GracefulCrashConstants.INSTALL_OVERRIDE,
         GracefulCrashConstants.DEFAULT_SYSTEM_HANDLER_INSTALLED,
+        GracefulCrashConstants.DISCLAIMER_FOR_STACK_TRACE_TOO_LARGE,
         GracefulCrashConstants.ACTIVITY_CREATED,
         GracefulCrashConstants.ACTIVITY_RESUMED,
         GracefulCrashConstants.ACTIVITY_PAUSED,
@@ -36,13 +38,14 @@ import java.lang.annotation.RetentionPolicy;
         GracefulCrashConstants.EXCEPTION_HANDLER_RESTARTED,
         GracefulCrashConstants.EXCEPTION_HANDLER_LAST_EXCEPTION,
         GracefulCrashConstants.ACTIVITY_LOG_DATA,
-        GracefulCrashConstants.ACTIVITY_EXTRA_CIRCULAR_REVEAL_X,
-        GracefulCrashConstants.ACTIVITY_EXTRA_CIRCULAR_REVEAL_Y
+        GracefulCrashConstants.ACTIVITY_ERROR_LOG_ON_RESTART_DATA,
+        GracefulCrashConstants.ACTIVITY_UNABLE_TO_PROCESS_INTENT_DATA
 })
 public @interface GracefulCrashConstants {
 
     /* Misc. Constants. */
     String TAG = ".:GracefulCrash:.";
+    String EMPTY_STRING = "";
     String SINGLE_TWO_POINTS_STRING = ": ";
     String SINGLE_NEW_LINE_STRING = "\n";
     String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
@@ -74,6 +77,7 @@ public @interface GracefulCrashConstants {
             "Installing GracefulCrash anyway, but the original detected handler will not be called.";
     String DEFAULT_SYSTEM_HANDLER_INSTALLED = "The default UncaughtExceptionHandler was detected.\nInstalling" +
             " GracefulCrash.";
+    String DISCLAIMER_FOR_STACK_TRACE_TOO_LARGE = " [stack trace too large]";
 
     /* Activity Tracking Constants. */
     String ACTIVITY_CREATED = " created.";
@@ -88,7 +92,7 @@ public @interface GracefulCrashConstants {
 
     /* Error Activity Arguments. */
     String ACTIVITY_LOG_DATA = GRACEFUL_CRASH_PACKAGE_NAME + ".ACTIVITY_LOG_DATA";
-    String ACTIVITY_EXTRA_CIRCULAR_REVEAL_X = "EXTRA_CIRCULAR_REVEAL_X";
-    String ACTIVITY_EXTRA_CIRCULAR_REVEAL_Y = "EXTRA_CIRCULAR_REVEAL_Y";
+    String ACTIVITY_ERROR_LOG_ON_RESTART_DATA = GRACEFUL_CRASH_PACKAGE_NAME + ".ERROR_LOG_ON_RESTART_DATA";
+    String ACTIVITY_UNABLE_TO_PROCESS_INTENT_DATA = "Error while processing intent data.";
 
 }

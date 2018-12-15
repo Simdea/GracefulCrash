@@ -11,6 +11,7 @@ import android.util.Log;
 import lombok.Getter;
 import pt.simdea.gracefulcrash.bootstrap.DefaultErrorActivity;
 import pt.simdea.gracefulcrash.bootstrap.GracefulCrashConfiguration;
+import pt.simdea.gracefulcrash.data.constants.GracefulCrashBackgroundModes;
 import pt.simdea.gracefulcrash.data.constants.GracefulCrashConstants;
 import pt.simdea.gracefulcrash.sample.BuildConfig;
 import pt.simdea.gracefulcrash.sample.support.data.constants.ActivityStateConstants;
@@ -179,6 +180,8 @@ public class SampleApplication extends Application
         final GracefulCrashConfiguration configuration = new GracefulCrashConfiguration.ConfigurationBuilder()
                 .enable(true)
                 .trackActivities(true, GracefulCrashConstants.DEFAULT_DATE_FORMAT, 2)
+                .withBackgroundMode(GracefulCrashBackgroundModes.SHOW_CUSTOM_CRASH)
+                .logErrorOnRestart(true)
                 .withErrorActivity(DefaultErrorActivity.class)
                 .buildConfiguration();
         configuration.apply();

@@ -11,7 +11,7 @@ buildscript {
 
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.6.2"
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.7.1"
         classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -49,18 +49,18 @@ ext {
 
     /* Shared Dependencies (across modules) */
     commonDependency = [
-            supportAppcompatV7  : "com.android.support:appcompat-v7:$project.supportLibraryVersion", // Google Support
-            lombok              : "org.projectlombok:lombok:$project.lombokVersion", // Lombok
-            dagger              : "com.google.dagger:dagger:$project.daggerVersion", // Dagger2
-            daggerCompiler      : "com.google.dagger:dagger-compiler:$project.daggerVersion", // Dagger2
-            butterKnife         : "com.jakewharton:butterknife:$project.butterKnifeVersion", // ButterKnife
-            butterKnifeCompiler : "com.jakewharton:butterknife-compiler:$project.butterKnifeVersion" // ButterKnife
+        supportAppcompatV7  : "com.android.support:appcompat-v7:$project.supportLibraryVersion", // Google Support
+        lombok              : "org.projectlombok:lombok:$project.lombokVersion", // Lombok
+        dagger              : "com.google.dagger:dagger:$project.daggerVersion", // Dagger2
+        daggerCompiler      : "com.google.dagger:dagger-compiler:$project.daggerVersion", // Dagger2
+        butterKnife         : "com.jakewharton:butterknife:$project.butterKnifeVersion", // ButterKnife
+        butterKnifeCompiler : "com.jakewharton:butterknife-compiler:$project.butterKnifeVersion" // ButterKnife
     ]
 
     /* QA Shared Dependencies (across modules) */
     qaDependency = [
-            jUnit        : "junit:junit:$project.jUnitVersion", // JUnit
-            espressoCore : "com.android.support.test.espresso:espresso-core:$project.espressoCoreVersion" // Espresso
+        jUnit        : "junit:junit:$project.jUnitVersion", // JUnit
+        espressoCore : "com.android.support.test.espresso:espresso-core:$project.espressoCoreVersion" // Espresso
     ]
 
 }

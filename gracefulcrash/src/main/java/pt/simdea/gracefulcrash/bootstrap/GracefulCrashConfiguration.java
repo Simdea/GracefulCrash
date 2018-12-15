@@ -27,6 +27,7 @@ public final class GracefulCrashConfiguration
     private final Class<? extends Activity> mErrorActivity;
     private final boolean mEnabled;
     private final boolean mTrackActivities;
+    private final boolean mLogErrorOnRestart;
     private final int mBackgroundMode;
     private final int mTrackActivitiesMinLogEntryTrace;
     private final String mTrackActivitiesDateFormat;
@@ -44,6 +45,7 @@ public final class GracefulCrashConfiguration
         mTrackActivitiesDateFormat = builder.mTrackActivitiesDateFormat;
         mTrackActivitiesMinLogEntryTrace = builder.mTrackActivitiesMinLogEntryTrace;
         mErrorActivity = builder.mErrorActivity;
+        mLogErrorOnRestart = builder.mLogErrorOnRestart;
         // Add more fields here ...
     }
 
@@ -69,6 +71,7 @@ public final class GracefulCrashConfiguration
         private Class<? extends Activity> mErrorActivity = DefaultErrorActivity.class;
         private boolean isEnabled = true; // true by default
         private boolean mTrackActivities = false; // false by default
+        private boolean mLogErrorOnRestart = true; // true by default
         private String mTrackActivitiesDateFormat
                 = GracefulCrashConstants.DEFAULT_DATE_FORMAT; // yyyy-MM-dd HH:mm:ss by default
         private int mTrackActivitiesMinLogEntryTrace = 50; // 50 by default
@@ -140,11 +143,29 @@ public final class GracefulCrashConfiguration
         }
 
         /**
+         * Procedure meant to set the value for {@link #mLogErrorOnRestart} optional parameter.
+         * If set to true the module will re-log the error stacktrace when the custom error activity is launched. This
+         * is done because Android Studio's LogCat only shows the stacktrace from the current active process. If set
+         * to false the error stacktrace will not be re-logged.
+         * @param logErrorOnRestart {@link Boolean} value indicating whether the {@link GracefulCrash} module should
+         *                          re-log the error stacktrace when the custom error activity is launched or not.
+         * @return                  {@link ConfigurationBuilder} instance representing the same object builder
+         *                          object after setting the optional attribute.
+         */
+        @NonNull
+        public ConfigurationBuilder logErrorOnRestart(final boolean logErrorOnRestart) {
+            mLogErrorOnRestart = logErrorOnRestart;
+            return this;
+        }
+
+        /**
          * Procedure meant to set the value for {@link #mErrorActivity} optional parameter.
          * If a class is provided, it allows for the injection of a custom error {@link Activity} that will be
          * launched when a crash occurs.
-         * @param errorActivity
-         * @return
+         * @param errorActivity {@link Class} instance representing the target custom error {@link Activity} that
+         *                      will be launched when a crash occurs.
+         * @return              {@link ConfigurationBuilder} instance representing the same object builder
+         *                      object after setting the optional attribute.
          */
         @NonNull
         public ConfigurationBuilder withErrorActivity(@NonNull final Class<? extends Activity> errorActivity) {
